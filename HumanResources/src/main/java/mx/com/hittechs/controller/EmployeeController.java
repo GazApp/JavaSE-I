@@ -1,8 +1,15 @@
 package mx.com.hittechs.controller;
 
+//import java.text.DateFormat;
+//import java.text.ParseException;
+//import java.text.SimpleDateFormat;
 //import java.time.LocalDate;
 //import java.util.Calendar;
+//import java.util.Date;
 //import java.util.List;
+//import java.util.Locale;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 //import javax.swing.ComboBoxModel;
 //import javax.swing.DefaultComboBoxModel;
 //import javax.swing.table.DefaultTableModel;
@@ -13,6 +20,7 @@ package mx.com.hittechs.controller;
 //import mx.com.hittechs.dao.impl.DepartmentDaoImpl;
 //import mx.com.hittechs.dao.impl.EmployeeDaoImpl;
 //import mx.com.hittechs.dao.impl.JobDaoImpl;
+//import mx.com.hittechs.exceptions.InvalidAgeException;
 //import mx.com.hittechs.model.Department;
 //import mx.com.hittechs.model.Employee;
 //import mx.com.hittechs.model.Job;
@@ -47,22 +55,23 @@ package mx.com.hittechs.controller;
 //        employee.setId(Integer.parseInt(view.id.getText()));
 //        employee.setFirstName(view.firstName.getText());
 //        employee.setLastName(view.lastName.getText());
-//        employee.setAge(Integer.parseInt(view.age.getText()));
+//        try {
+//            employee.setAge(Integer.parseInt(view.age.getText()));
+//        } catch (InvalidAgeException ex) {
+//            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 //        employee.setEmail(view.email.getText());
 //        employee.setPhoneNumber(view.phoneNumber.getText());
-//        
+//
 //        department = departmentDao.findByTitle(view.departments.getSelectedItem().toString());
 //        employee.setDepartment(department);
-//        
-//        job = jobDao.findByTitle(view.job.getSelectedItem().toString());
+//
+//        job = jobDao.findByTitle(view.jobs.getSelectedItem().toString());
 //        employee.setJob(job);
-//        
+//
 //        employee.setSalary(Double.parseDouble(view.salary.getText()));
-//        year = view.hireDate.getCalendar().get((Calendar.YEAR));
-//        month = view.hireDate.getCalendar().get((Calendar.MONTH));
-//        date = view.hireDate.getCalendar().get((Calendar.DATE));
-//        employee.setHireDate(LocalDate.of(year, ++month, date));
-//               
+//        employee.setHireDate(new java.sql.Date(view.hireDate.getDate().getTime()).toLocalDate());
+//
 //        if (employee.getId() == -1) {
 //            employeeDao.create(employee);
 //            view.employees.setModel(findAllEmployees());
@@ -101,7 +110,7 @@ package mx.com.hittechs.controller;
 //            object[4] = employee.getEmail();
 //            object[5] = employee.getPhoneNumber();
 //            object[6] = employee.getSalary();
-//            object[7] = employee.getHireDate().toString();
+//            object[7] = employee.getHireDate();
 //            if (employee.getDepartment() != null) {
 //                object[8] = employee.getDepartment().getTitle();
 //            } else {
@@ -156,18 +165,30 @@ package mx.com.hittechs.controller;
 //
 //    public Employee getSelectedEmployee() {
 //        int row = view.employees.getSelectedRow();
-//        LocalDate date;
 //        Employee employee = new Employee();
 //
 //        employee.setId(Integer.parseInt(view.employees.getModel().getValueAt(row, 0).toString()));
 //        employee.setFirstName(view.employees.getModel().getValueAt(row, 1).toString());
 //        employee.setLastName(view.employees.getModel().getValueAt(row, 2).toString());
-//        employee.setAge(Integer.parseInt(view.employees.getModel().getValueAt(row, 3).toString()));
+//        try {
+//            employee.setAge(Integer.parseInt(view.employees.getModel().getValueAt(row, 3).toString()));
+//        } catch (InvalidAgeException ex) {
+//            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 //        employee.setEmail(view.employees.getModel().getValueAt(row, 4).toString());
 //        employee.setPhoneNumber(view.employees.getModel().getValueAt(row, 5).toString());
+//        DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+//        Date date = null;
+//        try {
+//            date = format.parse(view.employees.getModel().getValueAt(row, 7).toString());
+//        } catch (ParseException ex) {
+//            Logger.getLogger(EmployeeController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        employee.setHireDate(new java.sql.Date(date.getTime()).toLocalDate());
+//        employee.setDepartment(departmentDao.findByTitle(view.employees.getModel().getValueAt(row, 8).toString()));
+//        employee.setJob(jobDao.findByTitle(view.employees.getModel().getValueAt(row, 9).toString()));
 //        employee.setSalary(Double.parseDouble(view.employees.getModel().getValueAt(row, 6).toString()));
-//        date = LocalDate.parse(view.employees.getModel().getValueAt(row, 7).toString());
-//        employee.setHireDate(date);
+//
 //        return employee;
 //    }
 //

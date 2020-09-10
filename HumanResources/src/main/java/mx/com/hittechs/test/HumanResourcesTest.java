@@ -2,15 +2,12 @@ package mx.com.hittechs.test;
 
 import mx.com.hittechs.model.Employee;
 
-/**
- *
- * @author Hittechs Training & Consulting
- * @web www.hittechs.com.mx
- * @mail contacto@hittechs.com.mx
- */
+
 public class HumanResourcesTest {
 
     public static void main(String[] args) {
+        
+        // Creacion de Objetos, a partir de los campos de la clase Employee.java:
         Employee e1 = new Employee();
         Employee e2 = new Employee();
 
